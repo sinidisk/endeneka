@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono&family=UnifrakturCook:wght@700&display=swap');
+
+body {
+  background-color: #0a0a0a;
+  color: #d6d6d6;
+  font-family: 'Space Mono', monospace;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.container {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 5vh 2rem;
+}
+
+h1 {
+  font-family: 'UnifrakturCook', cursive;
+  font-size: 4rem;
+  color: #b10000;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px #300, 0 0 20px #800;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  color: #888;
+  margin-top: -10px;
+}
+
+nav {
+  margin: 2rem 0;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+nav a {
+  color: #ccc;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #b10000;
+}
+
+main p {
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+footer {
+  margin-top: 3rem;
+  font-size: 0.8rem;
+  color: #777;
+}
+
+footer p {
+  margin: 0.5rem 0;
+}
+
+.socials a {
+  margin: 0 0.5rem;
+  color: #999;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.socials a:hover {
+  color: #b10000;
+}
+
+/* grunge noise overlay */
+.noise {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-image: url('https://grainy-gradients.vercel.app/noise.svg');
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* subtle flicker animation */
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 1;
+  }
+  20%, 24%, 55% {
+    opacity: 0.8;
+  }
+}
+
+h1, .noise {
+  animation: flicker 3s infinite;
+}
