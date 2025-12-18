@@ -1,13 +1,10 @@
-// Music Player with Real Audio Support
-        const songs = [
-            // Add your own MP3 files here! Example<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mac OS 9 Desktop</title>
-    <link href="/style.css" rel="stylesheet" />
-  
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <div class="menu-bar">
@@ -22,10 +19,12 @@
     </div>
 
     <div class="desktop" id="desktop">
+        <!-- Music Window -->
         <div class="window" id="musicWindow" style="width: 400px; height: 550px; left: 100px; top: 80px;">
-            <div class="window-title-bar">
+            <div class="window-title-bar" data-window="musicWindow">
                 <div class="window-buttons">
                     <div class="window-button close" onclick="closeWindow('musicWindow')">×</div>
+                    <div class="window-button maximize" onclick="toggleMaximize('musicWindow')">□</div>
                 </div>
                 <div class="window-title">Music Player</div>
             </div>
@@ -56,13 +55,15 @@
                 <div style="margin: 8px 0; font-size: 11px; font-weight: bold;">Playlist:</div>
                 <div class="playlist" id="playlist"></div>
             </div>
-            <div class="window-resize-handle"></div>
+            <div class="window-resize-handle" data-window="musicWindow"></div>
         </div>
 
+        <!-- Gallery Window -->
         <div class="window" id="galleryWindow" style="width: 600px; height: 500px; left: 150px; top: 100px;">
-            <div class="window-title-bar">
+            <div class="window-title-bar" data-window="galleryWindow">
                 <div class="window-buttons">
                     <div class="window-button close" onclick="closeWindow('galleryWindow')">×</div>
+                    <div class="window-button maximize" onclick="toggleMaximize('galleryWindow')">□</div>
                 </div>
                 <div class="window-title">Gallery</div>
             </div>
@@ -73,46 +74,73 @@
                 </div>
                 <div class="gallery-grid" id="galleryGrid"></div>
             </div>
-            <div class="window-resize-handle"></div>
+            <div class="window-resize-handle" data-window="galleryWindow"></div>
         </div>
 
+        <!-- Image Viewer Window -->
         <div class="window" id="imageWindow" style="width: 500px; height: 550px; left: 200px; top: 120px;">
-            <div class="window-title-bar">
+            <div class="window-title-bar" data-window="imageWindow">
                 <div class="window-buttons">
                     <div class="window-button close" onclick="closeWindow('imageWindow')">×</div>
+                    <div class="window-button maximize" onclick="toggleMaximize('imageWindow')">□</div>
                 </div>
                 <div class="window-title" id="imageTitle">Image Viewer</div>
             </div>
             <div class="window-content">
                 <div class="image-viewer" id="imageViewer"></div>
             </div>
-            <div class="window-resize-handle"></div>
+            <div class="window-resize-handle" data-window="imageWindow"></div>
         </div>
 
+        <!-- Videos Window -->
+        <div class="window" id="videosWindow" style="width: 640px; height: 500px; left: 180px; top: 100px;">
+            <div class="window-title-bar" data-window="videosWindow">
+                <div class="window-buttons">
+                    <div class="window-button close" onclick="closeWindow('videosWindow')">×</div>
+                    <div class="window-button maximize" onclick="toggleMaximize('videosWindow')">□</div>
+                </div>
+                <div class="window-title">Videos</div>
+            </div>
+            <div class="window-content">
+                <video id="videoPlayer" class="video-player" controls style="width: 100%; max-height: 360px;">
+                    <source src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div style="margin: 8px 0; font-size: 11px; font-weight: bold;">Video Library:</div>
+                <div class="video-list" id="videoList"></div>
+            </div>
+            <div class="window-resize-handle" data-window="videosWindow"></div>
+        </div>
+
+        <!-- Notes Window -->
         <div class="window" id="notesWindow" style="width: 700px; height: 500px; left: 120px; top: 90px;">
-            <div class="window-title-bar">
+            <div class="window-title-bar" data-window="notesWindow">
                 <div class="window-buttons">
                     <div class="window-button close" onclick="closeWindow('notesWindow')">×</div>
+                    <div class="window-button maximize" onclick="toggleMaximize('notesWindow')">□</div>
                 </div>
                 <div class="window-title">Notes</div>
             </div>
             <div class="window-content" style="padding: 0;">
                 <div class="notes-layout">
-                    <div class="notes-sidebar" id="notesSidebar"></div>
-                    <div class="notes-content" id="notesContent">
-                        <div style="padding: 16px; color: #808080; text-align: center;">
-                            Select a note to view
+                    <div class="notes-sidebar" id="notesSidebar">
+                        <div style="padding: 8px; text-align: center; color: #606060; font-size: 10px;">
+                            Loading notes...
                         </div>
+                    </div>
+                    <div class="notes-content" id="notesContent">
+                        Select a note to view its content...
                     </div>
                 </div>
             </div>
-            <div class="window-resize-handle"></div>
+            <div class="window-resize-handle" data-window="notesWindow"></div>
         </div>
     </div>
 
     <div class="dock">
         <div class="dock-icon" onclick="openWindow('musicWindow')" title="Music Player">🎵</div>
         <div class="dock-icon" onclick="openWindow('galleryWindow')" title="Gallery">🖼️</div>
+        <div class="dock-icon" onclick="openWindow('videosWindow')" title="Videos">🎬</div>
         <div class="dock-icon" onclick="openWindow('notesWindow')" title="Notes">📝</div>
     </div>
 
@@ -129,7 +157,7 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // Window Management
+        // Advanced Window Management
         let zIndexCounter = 100;
         let draggedWindow = null;
         let dragOffsetX = 0;
@@ -139,6 +167,7 @@
         let resizeStartY = 0;
         let resizeStartWidth = 0;
         let resizeStartHeight = 0;
+        const windowStates = {};
 
         function openWindow(windowId) {
             const win = document.getElementById(windowId);
@@ -156,10 +185,40 @@
             win.style.zIndex = ++zIndexCounter;
         }
 
+        function toggleMaximize(windowId) {
+            const win = document.getElementById(windowId);
+            
+            if (win.classList.contains('maximized')) {
+                // Restore to previous size and position
+                win.classList.remove('maximized');
+                if (windowStates[windowId]) {
+                    win.style.width = windowStates[windowId].width;
+                    win.style.height = windowStates[windowId].height;
+                    win.style.left = windowStates[windowId].left;
+                    win.style.top = windowStates[windowId].top;
+                }
+            } else {
+                // Save current state before maximizing
+                windowStates[windowId] = {
+                    width: win.style.width,
+                    height: win.style.height,
+                    left: win.style.left,
+                    top: win.style.top
+                };
+                win.classList.add('maximized');
+            }
+        }
+
+        // Drag and drop for windows
         document.addEventListener('mousedown', (e) => {
             const titleBar = e.target.closest('.window-title-bar');
             if (titleBar && !e.target.classList.contains('window-button')) {
-                draggedWindow = titleBar.parentElement;
+                const windowId = titleBar.dataset.window;
+                draggedWindow = document.getElementById(windowId);
+                
+                // Don't drag if maximized
+                if (draggedWindow.classList.contains('maximized')) return;
+                
                 focusWindow(draggedWindow);
                 dragOffsetX = e.clientX - draggedWindow.offsetLeft;
                 dragOffsetY = e.clientY - draggedWindow.offsetTop;
@@ -168,7 +227,8 @@
 
             const resizeHandle = e.target.closest('.window-resize-handle');
             if (resizeHandle) {
-                resizingWindow = resizeHandle.parentElement;
+                const windowId = resizeHandle.dataset.window;
+                resizingWindow = document.getElementById(windowId);
                 focusWindow(resizingWindow);
                 resizeStartX = e.clientX;
                 resizeStartY = e.clientY;
@@ -200,20 +260,10 @@
             resizingWindow = null;
         });
 
-        // Music Player with Real Audio Support
+        // Music Player
         const songs = [
-            // REPLACE THIS ARRAY WITH YOUR ACTUAL SONGS
-            // Example format:
-            // { 
-            //     title: 'Feel Good Inc.', 
-            //     artist: 'Gorillaz', 
-            //     album: 'Demon Days', 
-            //     icon: '🎸', 
-            //     file: 'music/feelgoodinc.mp3'  // Path to your MP3 file
-            // },
-            
-            // Demo songs (these won't play actual audio):
-            { title: 'Add Your Songs', artist: 'Update the songs array', album: 'See instructions', icon: '/logo.png', file: '/guitare1.mp3' },
+            // Add your songs here with this format:
+            // { title: 'Song Name', artist: 'Artist', album: 'Album', icon: '🎵', file: 'music/song.mp3' }
             { title: 'Example Song 1', artist: 'Artist Name', album: 'Album Name', icon: '🎵', file: null },
             { title: 'Example Song 2', artist: 'Another Artist', album: 'Another Album', icon: '🎶', file: null }
         ];
@@ -222,12 +272,9 @@
         let isPlaying = false;
         let isShuffle = false;
         let isRepeat = false;
-
-        // Create HTML5 Audio element
         const audio = new Audio();
         audio.volume = 1.0;
 
-        // Audio event listeners
         audio.addEventListener('ended', () => {
             if (isRepeat) {
                 audio.currentTime = 0;
@@ -376,7 +423,6 @@
             return `${mins}:${secs.toString().padStart(2, '0')}`;
         }
 
-        // Progress bar seek
         document.getElementById('progressBar').addEventListener('click', (e) => {
             if (!audio.duration) return;
             const bar = e.currentTarget;
@@ -385,7 +431,6 @@
             audio.currentTime = audio.duration * percent;
         });
 
-        // Volume control
         document.getElementById('volumeSlider').addEventListener('click', (e) => {
             const bar = e.currentTarget;
             const rect = bar.getBoundingClientRect();
@@ -394,53 +439,21 @@
             document.getElementById('volumeFill').style.width = (percent * 100) + '%';
         });
 
-        // Gallery with Real Image Support
+        // Gallery
         const photoImages = [
-            // REPLACE THIS ARRAY WITH YOUR ACTUAL PHOTOS
-            // Example format:
-            // { name: 'Sunset Beach', file: 'photos/sunset.jpg' },
-            // { name: 'Mountain Peak', file: 'photos/mountain.jpg' },
-            
-            // Demo images (showing placeholder icons):
+            // Add your photos here with this format:
+            // { name: 'Photo Name', file: 'photos/photo.jpg' }
             { name: 'Sunset Beach', icon: '🌅', file: null },
             { name: 'Mountain Peak', icon: '🏔️', file: null },
-            { name: 'City Lights', icon: '🌆', file: null },
-            { name: 'Forest Path', icon: '🌲', file: null },
-            { name: 'Ocean Wave', icon: '🌊', file: null },
-            { name: 'Desert Dune', icon: '🏜️', file: null },
-            { name: 'Starry Night', icon: '🌃', file: null },
-            { name: 'Flower Garden', icon: '🌺', file: null },
-            { name: 'Snowy Landscape', icon: '❄️', file: null },
-            { name: 'Tropical Paradise', icon: '🏝️', file: null },
-            { name: 'Autumn Leaves', icon: '🍂', file: null },
-            { name: 'Cherry Blossoms', icon: '🌸', file: null },
-            { name: 'Northern Lights', icon: '✨', file: null },
-            { name: 'Waterfall', icon: '💦', file: null },
-            { name: 'Rainbow', icon: '🌈', file: null }
+            { name: 'City Lights', icon: '🌆', file: null }
         ];
 
         const drawingImages = [
-            // REPLACE THIS ARRAY WITH YOUR ACTUAL DRAWINGS
-            // Example format:
-            // { name: 'Abstract Art', file: 'drawings/abstract.png' },
-            // { name: 'Portrait Sketch', file: 'drawings/portrait.jpg' },
-            
-            // Demo images (showing placeholder icons):
+            // Add your drawings here with this format:
+            // { name: 'Drawing Name', file: 'drawings/drawing.png' }
             { name: 'Abstract Art', icon: '🎨', file: null },
             { name: 'Portrait Sketch', icon: '👤', file: null },
-            { name: 'Landscape Drawing', icon: '🖼️', file: null },
-            { name: 'Still Life', icon: '🍎', file: null },
-            { name: 'Animal Study', icon: '🦁', file: null },
-            { name: 'Architecture', icon: '🏛️', file: null },
-            { name: 'Fantasy Scene', icon: '🐉', file: null },
-            { name: 'Comic Strip', icon: '💭', file: null },
-            { name: 'Character Design', icon: '🧙', file: null },
-            { name: 'Nature Study', icon: '🌿', file: null },
-            { name: 'Urban Sketch', icon: '🏙️', file: null },
-            { name: 'Digital Painting', icon: '🖌️', file: null },
-            { name: 'Manga Art', icon: '📚', file: null },
-            { name: 'Pixel Art', icon: '👾', file: null },
-            { name: 'Watercolor', icon: '🎭', file: null }
+            { name: 'Landscape Drawing', icon: '🖼️', file: null }
         ];
 
         let currentFolder = 'photos';
@@ -457,9 +470,8 @@
             currentImages = images;
             const grid = document.getElementById('galleryGrid');
             grid.innerHTML = images.map((img, i) => {
-                // If image has a file, show thumbnail preview, otherwise show icon
                 const thumbContent = img.file ? 
-                    `<img src="${img.file}" style="width: 100%; height: 100%; object-fit: cover;">` : 
+                    `<img src="${img.file}">` : 
                     img.icon;
                 
                 return `
@@ -481,7 +493,6 @@
             const img = currentImages[currentImageIndex];
             document.getElementById('imageTitle').textContent = img.name;
             
-            // If image has a file, show actual image, otherwise show icon
             const imageContent = img.file ?
                 `<img src="${img.file}" style="max-width: 100%; max-height: 400px; border: 2px solid #808080;">` :
                 `<div class="image-display">${img.icon}</div>`;
@@ -510,415 +521,134 @@
             displayImage();
         }
 
-        // Notes
-        const notes = [
-            {
-                title: 'How to Add Your Images',
-                preview: 'Instructions for adding photos and drawings...',
-                content: `# How to Add Your Images
-
-Follow these steps to add your own photos and drawings to the gallery:
-
-## Step 1: Update the Image Arrays
-
-In the JavaScript code, find the \`photoImages\` and \`drawingImages\` arrays (around line 570) and replace them:
-
-### Photos Example:
-\`\`\`javascript
-const photoImages = [
-    { name: 'Sunset Beach', file: 'photos/sunset.jpg' },
-    { name: 'Mountain View', file: 'photos/mountain.png' },
-    { name: 'City Night', file: 'photos/city.jpg' }
-];
-\`\`\`
-
-### Drawings Example:
-\`\`\`javascript
-const drawingImages = [
-    { name: 'Sketch 1', file: 'drawings/sketch1.png' },
-    { name: 'Portrait', file: 'drawings/portrait.jpg' },
-    { name: 'Abstract', file: 'drawings/abstract.png' }
-];
-\`\`\`
-
-## Step 2: File Organization
-
-Create this folder structure:
-\`\`\`
-your-project/
-├── index.html (this file)
-├── photos/
-│   ├── sunset.jpg
-│   ├── mountain.png
-│   └── city.jpg
-└── drawings/
-    ├── sketch1.png
-    ├── portrait.jpg
-    └── abstract.png
-\`\`\`
-
-## Step 3: Supported Formats
-
-- JPG/JPEG (.jpg, .jpeg)
-- PNG (.png)
-- GIF (.gif)
-- WebP (.webp)
-- SVG (.svg)
-
-## Features
-
-- **Thumbnail Preview**: Images show as thumbnails in grid
-- **Full View**: Click to see larger version
-- **Navigation**: Previous/Next buttons
-- **Full Size**: "Full Size" button opens image in new tab
-- **Counter**: Shows "Image X of Y"
-
-Just add as many images as you want - the grid will automatically adjust!`
-            },
-            {
-                title: 'How to Add Your Music',
-                preview: 'Instructions for adding MP3 files...',
-                content: `# How to Add Your Music Files
-
-Follow these steps to add your own MP3 files to the music player:
-
-## Step 1: Update the Songs Array
-
-In the JavaScript code, find the \`songs\` array (around line 450) and replace it with your music:
-
-\`\`\`javascript
-const songs = [
-    { 
-        title: 'Feel Good Inc.', 
-        artist: 'Gorillaz', 
-        album: 'Demon Days', 
-        icon: '🎸', 
-        file: 'music/feelgoodinc.mp3'
-    },
-    { 
-        title: 'Your Song Title', 
-        artist: 'Artist Name', 
-        album: 'Album Name', 
-        icon: '🎵', 
-        file: 'music/yoursong.mp3'
-    }
-];
-\`\`\`
-
-## Step 2: File Organization
-
-Create a folder structure:
-- Put this HTML file in your main folder
-- Create a \`music\` folder next to it
-- Add your MP3 files to the \`music\` folder
-
-## Step 3: File Paths
-
-Make sure the \`file\` property points to the correct location:
-- Same folder: \`file: 'song.mp3'\`
-- Music folder: \`file: 'music/song.mp3'\`
-- Subfolder: \`file: 'music/album/song.mp3'\`
-
-## Supported Formats
-
-- MP3 (.mp3)
-- WAV (.wav)
-- OGG (.ogg)
-- M4A (.m4a)
-
-The player will automatically detect the duration once the file loads!`
-            },
-            {
-                title: 'Welcome to Mac OS 9',
-                preview: 'A nostalgic journey back to classic computing...',
-                content: `# Welcome to Mac OS 9
-
-This is a faithful recreation of the classic Mac OS 9 interface, bringing back the platinum appearance and iconic design that defined Apple computing in the late 1990s.
-
-## Features
-
-- **Authentic Design**: Recreated platinum color scheme and beveled UI elements
-- **Window Management**: Drag, resize, and manage multiple windows
-- **Real Audio Playback**: Support for MP3, WAV, OGG, and M4A files
-- **Volume Control**: Adjustable volume slider
-- **Seek Functionality**: Click the progress bar to jump to any position
-
-## The Mac OS 9 Era
-
-Mac OS 9 was released in 1999 and represented the final major release of the classic Mac OS before the transition to Mac OS X. It featured improved performance, better networking capabilities, and the introduction of Sherlock 2.
-
-*Experience the nostalgia of classic computing with modern functionality!*`
-            },
-            {
-                title: 'Music Player Features',
-                preview: 'Full audio playback with HTML5...',
-                content: `# Music Player Features
-
-The Music Player now includes **real audio playback** using HTML5 Audio API!
-
-## Playback Controls
-
-- **Play/Pause**: Start or pause playback
-- **Stop**: Stop playback and reset to beginning
-- **Previous/Next**: Navigate through your playlist
-- **Shuffle**: Random track order
-- **Repeat**: Loop the current track
-
-## New Features
-
-### Volume Control
-Adjustable volume slider with visual feedback. Click anywhere on the slider to set volume.
-
-### Progress Bar
-- Shows current time and total duration
-- Click anywhere to seek to that position
-- Updates in real-time during playback
-
-### Automatic Duration
-The player automatically detects song duration when files load.
-
-## How It Works
-
-The player uses the HTML5 \`<audio>\` element to play actual audio files. Just add your MP3s to the songs array and you're ready to go!`
-            },
-            {
-                title: 'Gallery Overview',
-                preview: 'Browse your photos and drawings...',
-                content: `# Gallery Overview
-
-The Gallery application now supports **real images** with automatic thumbnail generation!
-
-## Two Folders
-
-1. **Photos**: Your photography collection
-2. **Drawings**: Your artwork and illustrations
-
-## How to Use
-
-- Click folder buttons to switch between collections
-- Click any thumbnail to open in detailed viewer
-- Use Previous/Next buttons to navigate
-- Click "Full Size" to open image in new tab
-- Image counter shows your position (e.g., "Image 3 of 15")
-
-## Adding Your Images
-
-Update the image arrays in the code:
-
-\`\`\`javascript
-const photoImages = [
-    { name: 'My Photo', file: 'photos/photo1.jpg' },
-    { name: 'Another Photo', file: 'photos/photo2.png' }
-];
-
-const drawingImages = [
-    { name: 'My Drawing', file: 'drawings/art1.png' },
-    { name: 'Sketch', file: 'drawings/sketch.jpg' }
-];
-\`\`\`
-
-## Features
-
-- Automatic thumbnail generation
-- Grid layout adapts to screen size
-- Smooth navigation between images
-- Support for JPG, PNG, GIF, WebP, and SVG
-- Full-size viewing option
-
-The gallery can handle as many images as you want to add!`
-            },
-            {
-                title: 'Complete Setup Guide',
-                preview: 'Full instructions for music and images...',
-                content: `# Complete Setup Guide
-
-Here's how to set up your entire Mac OS 9 desktop with your own files!
-
-## File Structure
-
-Create this folder organization:
-
-\`\`\`
-my-macos9-desktop/
-├── index.html          (this file)
-├── music/
-│   ├── song1.mp3
-│   ├── song2.mp3
-│   └── album/
-│       └── song3.mp3
-├── photos/
-│   ├── vacation1.jpg
-│   ├── vacation2.jpg
-│   └── family.png
-└── drawings/
-    ├── sketch1.png
-    ├── painting.jpg
-    └── digital-art.png
-\`\`\`
-
-## 1. Add Your Music
-
-Find the \`songs\` array (line ~450):
-
-\`\`\`javascript
-const songs = [
-    { 
-        title: 'Song Name',
-        artist: 'Artist',
-        album: 'Album',
-        icon: '🎵',
-        file: 'music/song1.mp3'
-    }
-];
-\`\`\`
-
-## 2. Add Your Photos
-
-Find the \`photoImages\` array (line ~570):
-
-\`\`\`javascript
-const photoImages = [
-    { name: 'Vacation', file: 'photos/vacation1.jpg' },
-    { name: 'Family', file: 'photos/family.png' }
-];
-\`\`\`
-
-## 3. Add Your Drawings
-
-Find the \`drawingImages\` array:
-
-\`\`\`javascript
-const drawingImages = [
-    { name: 'Sketch', file: 'drawings/sketch1.png' },
-    { name: 'Painting', file: 'drawings/painting.jpg' }
-];
-\`\`\`
-
-## Tips
-
-- Use relative paths for portability
-- Organize files in subfolders
-- Supported: MP3, WAV, OGG for music; JPG, PNG, GIF for images
-- Test locally before uploading to a server
-
-Now you have a fully personalized retro desktop!`
-            },
-            {
-                title: 'Gallery Overview - Old',
-                preview: 'Browse your photos and drawings...',
-                content: `# Gallery Overview
-
-The Gallery application provides an organized way to view your image collections.
-
-## Two Folders
-
-1. **Photos**: Natural scenes and photography (15 images)
-2. **Drawings**: Artwork and illustrations (15 images)
-
-## How to Use
-
-- Click folder buttons to switch between collections
-- Click any thumbnail to open in detailed view
-- Use Previous/Next buttons in viewer to navigate
-- All images represented with colorful emoji icons
-
-## Adding Real Images
-
-You can extend the gallery to show real images by updating the image arrays with actual file paths:
-
-\`\`\`javascript
-{ name: 'Sunset', icon: '🌅', file: 'photos/sunset.jpg' }
-\`\`\`
-
-Then modify the display code to show the actual images instead of emoji icons.`
-            },
-            {
-                title: 'Technical Notes',
-                preview: 'How this recreation works...',
-                content: `# Technical Implementation
-
-## Audio System
-
-### HTML5 Audio API
-The music player uses the native HTML5 \`<audio>\` element:
-
-- \`audio.play()\` - Start playback
-- \`audio.pause()\` - Pause playback
-- \`audio.currentTime\` - Get/set position
-- \`audio.duration\` - Get total length
-- \`audio.volume\` - Control volume (0.0 to 1.0)
-
-### Event Listeners
-- \`timeupdate\` - Updates progress bar
-- \`ended\` - Handles track completion
-- \`loadedmetadata\` - Gets duration info
-- \`error\` - Handles loading errors
-
-## Window Management
-
-Pure JavaScript implementation:
-- Mouse events for dragging
-- CSS transforms for positioning
-- Z-index for layering
-- Event delegation for efficiency
-
-## Performance
-
-- Minimal DOM manipulation
-- CSS animations for smooth effects
-- Efficient event handling
-- No external dependencies
-
-All built with vanilla HTML, CSS, and JavaScript!`
-            }
+        // Videos Application
+        const videos = [
+            // Add your videos here with this format:
+            // { title: 'Video Title', file: 'videos/video.mp4', thumbnail: 'videos/thumb.jpg' }
+            { title: 'Example Video 1', file: null, thumbnail: null },
+            { title: 'Example Video 2', file: null, thumbnail: null }
         ];
 
-        let currentNoteIndex = 0;
+        let currentVideo = 0;
+        const videoPlayer = document.getElementById('videoPlayer');
 
-        function initNotes() {
-            const sidebar = document.getElementById('notesSidebar');
-            sidebar.innerHTML = notes.map((note, i) => `
-                <div class="note-item ${i === 0 ? 'active' : ''}" onclick="selectNote(${i})">
-                    <div class="note-title">${note.title}</div>
-                    <div class="note-preview">${note.preview}</div>
+        function initVideos() {
+            const videoList = document.getElementById('videoList');
+            videoList.innerHTML = videos.map((video, i) => `
+                <div class="video-item" onclick="playVideo(${i})">
+                    <div style="font-weight: bold;">${video.title}</div>
+                    <div style="font-size: 10px; color: #606060;">${video.file ? 'Ready to play' : 'No file specified'}</div>
                 </div>
             `).join('');
-            selectNote(0);
         }
 
-        function selectNote(index) {
-            currentNoteIndex = index;
+        function playVideo(index) {
+            currentVideo = index;
+            const video = videos[currentVideo];
+            
+            if (!video.file) {
+                alert('No video file specified. Please update the videos array with your video files.');
+                return;
+            }
+            
+            videoPlayer.src = video.file;
+            videoPlayer.load();
+            
+            document.querySelectorAll('.video-item').forEach((item, i) => {
+                item.classList.toggle('active', i === currentVideo);
+            });
+        }
+
+        // Notes Application with Dynamic File Loading
+        let noteFiles = [];
+        let currentNote = 0;
+
+        async function initNotes() {
+            try {
+                // Try to load notes index file first
+                const response = await fetch('notes/index.txt');
+                if (response.ok) {
+                    const indexText = await response.text();
+                    noteFiles = indexText.split('\n').filter(f => f.trim());
+                } else {
+                    // Fallback to predefined list
+                    noteFiles = [
+                        'notes/essay-about-noelle.txt',
+                        'how-to-add-music.txt',
+                        'how-to-add-images.txt',
+                        'how-to-add-videos.txt',
+                        'setup-guide.txt'
+                    ];
+                }
+                
+                loadNotesList();
+                if (noteFiles.length > 0) {
+                    loadNote(0);
+                }
+            } catch (error) {
+                console.error('Error loading notes:', error);
+                showNotesError();
+            }
+        }
+
+        function loadNotesList() {
+            const sidebar = document.getElementById('notesSidebar');
+            sidebar.innerHTML = noteFiles.map((file, i) => {
+                const name = file.replace('.txt', '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                return `
+                    <div class="note-item ${i === 0 ? 'active' : ''}" onclick="loadNote(${i})">
+                        <div class="note-title">${name}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function loadNote(index) {
+            currentNote = index;
             document.querySelectorAll('.note-item').forEach((item, i) => {
                 item.classList.toggle('active', i === index);
             });
-            displayNote();
-        }
-
-        function displayNote() {
-            const note = notes[currentNoteIndex];
+            
             const content = document.getElementById('notesContent');
-            content.innerHTML = `<div class="note-full">${parseMarkdown(note.content)}</div>`;
+            content.textContent = 'Loading...';
+            
+            try {
+                const response = await fetch(`notes/${noteFiles[index]}`);
+                if (response.ok) {
+                    const text = await response.text();
+                    content.textContent = text;
+                } else {
+                    content.textContent = `Error: Could not load ${noteFiles[index]}\n\nMake sure the file exists in the notes/ folder.`;
+                }
+            } catch (error) {
+                content.textContent = `Error loading note: ${error.message}\n\nCreate a 'notes' folder and add .txt files to use this feature.`;
+            }
         }
 
-        function parseMarkdown(text) {
-            return text
-                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-                .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                .replace(/`(.*?)`/g, '<code>$1</code>')
-                .replace(/^\- (.*$)/gim, '<ul><li>$1</li></ul>')
-                .replace(/^\d+\. (.*$)/gim, '<ol><li>$1</li></ol>')
-                .replace(/\n\n/g, '</p><p>')
-                .replace(/^(?!<[huo])/gim, '<p>')
-                .replace(/(<\/[huo]l>)\s*<[uo]l>/g, '$1')
-                .replace(/<\/p><p><([hou])/g, '<$1');
+        function showNotesError() {
+            const sidebar = document.getElementById('notesSidebar');
+            const content = document.getElementById('notesContent');
+            
+            sidebar.innerHTML = '<div style="padding: 8px; color: #606060; font-size: 10px;">No notes found</div>';
+            content.textContent = `Notes folder not found.
+
+Create a folder called "notes" next to this HTML file and add .txt files.
+
+Optional: Create an index.txt file listing all note files (one per line).
+
+Example structure:
+macos9-desktop/
+├── index.html
+└── notes/
+    ├── index.txt
+    ├── note1.txt
+    └── note2.txt`;
         }
 
-        // Initialize
+        // Initialize all applications
         initMusicPlayer();
         loadGallery();
+        initVideos();
         initNotes();
     </script>
 </body>
