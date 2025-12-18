@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mac OS 9 Desktop</title>
+    <title>Neka is online</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -262,10 +262,31 @@
 
         // Music Player
         const songs = [
-            // Add your songs here with this format:
-            // { title: 'Song Name', artist: 'Artist', album: 'Album', icon: '🎵', file: 'music/song.mp3' }
-            { title: 'Example Song 1', artist: 'Artist Name', album: 'Album Name', icon: '🎵', file: null },
-            { title: 'Example Song 2', artist: 'Another Artist', album: 'Another Album', icon: '🎶', file: null }
+            // Add your songs with album art like this:
+            { 
+                title: 'Celebration', 
+                artist: 'Artist Name', 
+                album: 'Album Name', 
+                icon: '🎵',
+                file: 'music/celebration.mp3',
+                cover: null  // Optional: 'music/album-cover.jpg' or 'music/late_registration.png'
+            },
+            { 
+                title: 'Guitare 1', 
+                artist: 'Artist Name', 
+                album: 'Album Name', 
+                icon: '🎸',
+                file: 'music/guitare1.mp3',
+                cover: null
+            },
+            { 
+                title: 'Thank Oliv', 
+                artist: 'Artist Name', 
+                album: 'Late Registration', 
+                icon: '🎶',
+                file: 'music/thankoliv.mp3',
+                cover: 'music/late_registration.png'  // Your album cover!
+            }
         ];
 
         let currentTrack = 0;
@@ -387,7 +408,15 @@
 
         function updatePlayerInfo() {
             const song = songs[currentTrack];
-            document.getElementById('albumArt').textContent = song.icon;
+            
+            // Display album art (image or emoji icon)
+            const albumArtEl = document.getElementById('albumArt');
+            if (song.cover) {
+                albumArtEl.innerHTML = `<img src="${song.cover}" alt="Album Cover">`;
+            } else {
+                albumArtEl.innerHTML = song.icon;
+            }
+            
             document.getElementById('playerInfo').innerHTML = `
                 <div style="font-weight: bold; margin-bottom: 4px;">${song.title}</div>
                 <div style="font-size: 10px; color: #606060;">${song.artist}</div>
@@ -438,22 +467,23 @@
             audio.volume = Math.max(0, Math.min(1, percent));
             document.getElementById('volumeFill').style.width = (percent * 100) + '%';
         });
-
+        
         // Gallery
         const photoImages = [
-            // Add your photos here with this format:
-            // { name: 'Photo Name', file: 'photos/photo.jpg' }
-            { name: 'Sunset Beach', icon: '🌅', file: null },
-            { name: 'Mountain Peak', icon: '🏔️', file: null },
-            { name: 'City Lights', icon: '🌆', file: null }
+            // Your photos
+            { name: 'DSC00119', file: 'photos/DSC00119.JPG' },
+            { name: 'DSC00120', file: 'photos/DSC00120.JPG' },
+            { name: 'DSC00121', file: 'photos/DSC00121.JPG' },
+            { name: 'DSC00122', file: 'photos/DSC00122.JPG' }
         ];
 
         const drawingImages = [
-            // Add your drawings here with this format:
-            // { name: 'Drawing Name', file: 'drawings/drawing.png' }
-            { name: 'Abstract Art', icon: '🎨', file: null },
-            { name: 'Portrait Sketch', icon: '👤', file: null },
-            { name: 'Landscape Drawing', icon: '🖼️', file: null }
+            // Your drawings
+            { name: 'Boules', file: 'drawings/boules.png' },
+            { name: 'Bowbow et Moi', file: 'drawings/bowbow et moi.png' },
+            { name: 'Broke', file: 'drawings/broke.png' },
+            { name: 'Card', file: 'drawings/card.png' },
+            { name: 'Logo', file: 'drawings/logo.png' }
         ];
 
         let currentFolder = 'photos';
@@ -525,7 +555,7 @@
         const videos = [
             // Add your videos here with this format:
             // { title: 'Video Title', file: 'videos/video.mp4', thumbnail: 'videos/thumb.jpg' }
-            { title: 'Example Video 1', file: null, thumbnail: null },
+            { title: 'justice mashup song ', file:'/videos/into you all night.mp4', thumbnail: null },
             { title: 'Example Video 2', file: null, thumbnail: null }
         ];
 
@@ -573,7 +603,7 @@
                 } else {
                     // Fallback to predefined list
                     noteFiles = [
-                        'notes/essay-about-noelle.txt',
+                        'essay-about-noelle.txt',
                         'how-to-add-music.txt',
                         'how-to-add-images.txt',
                         'how-to-add-videos.txt',
