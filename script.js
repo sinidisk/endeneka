@@ -1,10 +1,8 @@
-// Initialize all applications
-initMusicPlayer();
-loadGallery();
-initVideos();
-initNotes();
+// Mac OS 9 Desktop - Main JavaScript File
 
-// Clock
+// ============================================
+// CLOCK
+// ============================================
 function updateClock() {
     const now = new Date();
     const hours = now.getHours();
@@ -16,7 +14,9 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-// Advanced Window Management
+// ============================================
+// ADVANCED WINDOW MANAGEMENT
+// ============================================
 let zIndexCounter = 100;
 let draggedWindow = null;
 let dragOffsetX = 0;
@@ -119,12 +119,34 @@ document.addEventListener('mouseup', () => {
     resizingWindow = null;
 });
 
-// Music Player
+// ============================================
+// MUSIC PLAYER
+// ============================================
 const songs = [
-    // Add your songs here with this format:
-    // { title: 'Song Name', artist: 'Artist', album: 'Album', icon: '🎵', file: 'music/song.mp3' }
-    { title: 'Example Song 1', artist: 'Artist Name', album: 'Album Name', icon: '🎵', file: null },
-    { title: 'Example Song 2', artist: 'Another Artist', album: 'Another Album', icon: '🎶', file: null }
+    // EDIT THIS ARRAY WITH YOUR SONGS
+    { 
+        title: 'Celebration', 
+        artist: 'Artist Name', 
+        album: 'Album Name', 
+        icon: '🎵',
+        file: 'music/celebration.mp3',
+        cover: 'music/late_registration.png'
+    },
+    { 
+        title: 'Guitare 1', 
+        artist: 'Artist Name', 
+        album: 'Album Name', 
+        icon: '🎸',
+        file: 'music/guitare1.mp3',
+        cover: null
+    },
+    { 
+        title: 'Thank Oliv', 
+        artist: 'Artist Name', 
+        album: 'Late Registration', 
+        icon: '🎶',
+        file: 'music/thankoliv.mp3',
+    }
 ];
 
 let currentTrack = 0;
@@ -134,6 +156,7 @@ let isRepeat = false;
 const audio = new Audio();
 audio.volume = 1.0;
 
+// Audio event listeners
 audio.addEventListener('ended', () => {
     if (isRepeat) {
         audio.currentTime = 0;
@@ -172,7 +195,7 @@ function playTrack(index) {
     const song = songs[currentTrack];
     
     if (!song.file) {
-        alert('No audio file specified for this track. Please update the songs array with your MP3 files.');
+        alert('No audio file specified for this track.');
         return;
     }
     
@@ -184,13 +207,13 @@ function playTrack(index) {
         updatePlayButton();
     }).catch(err => {
         console.error('Playback error:', err);
-        alert('Could not play file. Make sure the path is correct and the file format is supported.');
+        alert('Could not play file. Make sure the path is correct.');
     });
 }
 
 function togglePlay() {
     if (!songs[currentTrack].file) {
-        alert('No audio file specified. Please update the songs array with your MP3 files.');
+        alert('No audio file specified.');
         return;
     }
 
@@ -246,7 +269,15 @@ function toggleRepeat() {
 
 function updatePlayerInfo() {
     const song = songs[currentTrack];
-    document.getElementById('albumArt').textContent = song.icon;
+    
+    // Display album art (image or emoji icon)
+    const albumArtEl = document.getElementById('albumArt');
+    if (song.cover) {
+        albumArtEl.innerHTML = `<img src="${song.cover}" alt="Album Cover">`;
+    } else {
+        albumArtEl.innerHTML = song.icon;
+    }
+    
     document.getElementById('playerInfo').innerHTML = `
         <div style="font-weight: bold; margin-bottom: 4px;">${song.title}</div>
         <div style="font-size: 10px; color: #606060;">${song.artist}</div>
@@ -282,6 +313,7 @@ function formatTime(seconds) {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
 }
 
+// Progress bar seek
 document.getElementById('progressBar').addEventListener('click', (e) => {
     if (!audio.duration) return;
     const bar = e.currentTarget;
@@ -290,6 +322,7 @@ document.getElementById('progressBar').addEventListener('click', (e) => {
     audio.currentTime = audio.duration * percent;
 });
 
+// Volume control
 document.getElementById('volumeSlider').addEventListener('click', (e) => {
     const bar = e.currentTarget;
     const rect = bar.getBoundingClientRect();
@@ -298,21 +331,24 @@ document.getElementById('volumeSlider').addEventListener('click', (e) => {
     document.getElementById('volumeFill').style.width = (percent * 100) + '%';
 });
 
-// Gallery
+// ============================================
+// GALLERY
+// ============================================
 const photoImages = [
-    // Add your photos here with this format:
-    // { name: 'Photo Name', file: 'photos/photo.jpg' }
-    { name: 'Sunset Beach', icon: '🌅', file: null },
-    { name: 'Mountain Peak', icon: '🏔️', file: null },
-    { name: 'City Lights', icon: '🌆', file: null }
+    // EDIT THIS ARRAY WITH YOUR PHOTOS
+    { name: 'DSC00119', file: 'photos/DSC00119.JPG' },
+    { name: 'DSC00120', file: 'photos/DSC00120.JPG' },
+    { name: 'DSC00121', file: 'photos/DSC00121.JPG' },
+    { name: 'DSC00122', file: 'photos/DSC00122.JPG' }
 ];
 
 const drawingImages = [
-    // Add your drawings here with this format:
-    // { name: 'Drawing Name', file: 'drawings/drawing.png' }
-    { name: 'Abstract Art', icon: '🎨', file: null },
-    { name: 'Portrait Sketch', icon: '👤', file: null },
-    { name: 'Landscape Drawing', icon: '🖼️', file: null }
+    // EDIT THIS ARRAY WITH YOUR DRAWINGS
+    { name: 'Boules', file: 'drawings/boules.png' },
+    { name: 'Bowbow et Moi', file: 'drawings/bowbow et moi.png' },
+    { name: 'Broke', file: 'drawings/broke.png' },
+    { name: 'Card', file: 'drawings/card.png' },
+    { name: 'Logo', file: 'drawings/logo.png' }
 ];
 
 let currentFolder = 'photos';
@@ -380,12 +416,13 @@ function nextImage() {
     displayImage();
 }
 
-// Videos Application
+// ============================================
+// VIDEOS APPLICATION
+// ============================================
 const videos = [
-    // Add your videos here with this format:
-    // { title: 'Video Title', file: 'videos/video.mp4', thumbnail: 'videos/thumb.jpg' }
-    { title: 'Example Video 1', file: null, thumbnail: null },
-    { title: 'Example Video 2', file: null, thumbnail: null }
+    // EDIT THIS ARRAY WITH YOUR VIDEOS
+    { title: 'Everybody Neka', file: 'videos/everybody_neka.mp4', thumbnail: null },
+    { title: 'Into You All Night', file: 'videos/into you all night.mp4', thumbnail: null }
 ];
 
 let currentVideo = 0;
@@ -406,7 +443,7 @@ function playVideo(index) {
     const video = videos[currentVideo];
     
     if (!video.file) {
-        alert('No video file specified. Please update the videos array with your video files.');
+        alert('No video file specified.');
         return;
     }
     
@@ -418,7 +455,9 @@ function playVideo(index) {
     });
 }
 
-// Notes Application with Dynamic File Loading
+// ============================================
+// NOTES APPLICATION WITH DYNAMIC FILE LOADING
+// ============================================
 let noteFiles = [];
 let currentNote = 0;
 
@@ -432,10 +471,8 @@ async function initNotes() {
         } else {
             // Fallback to predefined list
             noteFiles = [
-                'notes/essay-about-noelle.txt',
+                'welcome.txt',
                 'how-to-add-music.txt',
-                'how-to-add-images.txt',
-                'how-to-add-videos.txt',
                 'setup-guide.txt'
             ];
         }
@@ -499,8 +536,15 @@ Example structure:
 macos9-desktop/
 ├── index.html
 └── notes/
-├── index.txt
-├── note1.txt
-└── note2.txt`;
+    ├── index.txt
+    ├── note1.txt
+    └── note2.txt`;
 }
 
+// ============================================
+// INITIALIZE ALL APPLICATIONS
+// ============================================
+initMusicPlayer();
+loadGallery();
+initVideos();
+initNotes();
