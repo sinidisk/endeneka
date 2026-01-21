@@ -10,12 +10,8 @@
 body {
     font-family: 'Geneva', 'Lucida Sans', sans-serif;
     overflow: hidden;
-    width: 100vw;
-    height: 100vh;
-    background-image: url(/photos/tree.png);
+    background-image: url(/photos/dither_it_tree.png);
     background-repeat: round;
-
-
 }
 
 /* Menu Bar */
