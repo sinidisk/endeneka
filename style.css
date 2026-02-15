@@ -8,7 +8,7 @@
 }
 
 body {
-    font-family: 'Geneva', 'Lucida Sans', sans-serif;
+    font-family: "Franklin Gothic Demi Cond", "Franklin Gothic", Arial, sans-serif;
     overflow: hidden;
     background-image: url(/photos/dither_it_tree.png);
     background-repeat: round;
@@ -186,7 +186,7 @@ body {
     bottom: 8px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(192, 192, 192, 0.95);
+    background: linear-gradient(180deg, #e8e8e8 0%, #c0c0c0 100%);
     border: 1px solid #808080;
     padding: 8px;
     display: flex;
@@ -232,6 +232,7 @@ body {
 
 .player-info {
     background: #f0f0f0;
+    background-image: url(/photos/metal.jpg);
     padding: 8px;
     border: 1px solid #808080;
     margin-bottom: 12px;
@@ -269,7 +270,7 @@ body {
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(180deg, #6080ff 0%, #4060d0 100%);
+    background: linear-gradient(180deg, #ff6060 0%, #d04040 100%);
     width: 0%;
     transition: width 0.1s;
 }
@@ -302,6 +303,7 @@ body {
 
 .playlist-item.active {
     background: #000080;
+    background-image: url(/photos/metal.jpg);
     color: white;
 }
 
@@ -323,7 +325,7 @@ body {
 
 .volume-fill {
     height: 100%;
-    background: linear-gradient(180deg, #60ff80 0%, #40d060 100%);
+    background: linear-gradient(180deg, #ff6060 0%, #d04040 100%);
     width: 100%;
 }
 
@@ -367,7 +369,7 @@ body {
 }
 
 .gallery-thumbnail:hover {
-    border-color: #000080;
+    border-color: #800000;
 }
 
 .gallery-label {
@@ -424,7 +426,8 @@ body {
 }
 
 .video-item.active {
-    background: #000080;
+    background: #800000;
+    background-image: url(/photos/metal.jpg);
     color: white;
 }
 
@@ -463,6 +466,8 @@ body {
 
 .note-item.active {
     background: #000080;
+    background-image: url(/photos/metal.jpg);
+
     color: white;
 }
 
