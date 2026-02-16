@@ -1,3 +1,5 @@
 about.txt
-essay-about-noelle.txt
+lifetime-goals.txt
+peace.txt
+letranger.txt
 mobydick.txt
