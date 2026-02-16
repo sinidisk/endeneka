@@ -1,25 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="style.css">
-<title>new zero ENDENEKA.ONLINE</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neka is online.</title>
+    <link rel="icon" type="image/x-icon" href="/icons/zero.png">
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+    <!-- Menu Bar -->
+    <div class="menu-bar">
+        <div class="menu-item apple">Ø</div>
+        <div class="menu-item">File</div>
+        <div class="menu-item">Edit</div>
+        <div class="menu-item">View</div>
+        <div class="menu-item">Special</div>
+        <div class="menu-item">Help</div>
+        <div class="menu-spacer"></div>
+        <div class="menu-time" id="menuTime">12:00 PM</div>
+    </div>
 
-<div class="crt-monitor">
-  <div class="crt-content">
-    <img src="/logo.png" alt="logo" class="logo">
-    <h1>BETTER WEBSITE ON WORK</h1>
-    <p>if you've gotten redirected to this or just stalking me ,go away!</p>
-    <p>it is not done yet as i am busy manipulating </p>
-    <p>unrelated cool loading animation below</p>  
-    <span class="loader"></span>
-  </div>
-  <div class="scanlines"></div>
-</div>
+    <!-- Desktop -->
+    <div class="desktop" id="desktop">
+        <!-- Music Window -->
+        <div class="window" id="musicWindow" style="width: 400px; height: 550px; left: 100px; top: 80px;">
+            <div class="window-title-bar" data-window="musicWindow">
+                <div class="window-buttons">
+                    <div class="window-button close" onclick="closeWindow('musicWindow')">×</div>
+                    <div class="window-button maximize" onclick="toggleMaximize('musicWindow')">□</div>
+                </div>
+                <div class="window-title">Music Player</div>
+            </div>
+            <div class="window-content">
+                <div class="album-art" id="albumArt">🎵</div>
+                <div class="player-info" id="playerInfo">
+                    <div style="font-weight: bold; margin-bottom: 4px;">No track loaded</div>
+                    <div style="font-size: 10px; color: #606060;">Add your MP3 files to play music</div>
+                </div>
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-fill" id="progressFill"></div>
+                    <div class="progress-time" id="progressTime">0:00 / 0:00</div>
+                </div>
+                <div class="volume-control">
+                    <span style="font-size: 11px;">🔊</span>
+                    <div class="volume-slider" id="volumeSlider">
+                        <div class="volume-fill" id="volumeFill"></div>
+                    </div>
+                </div>
+                <div class="player-controls">
+                    <button class="mac-button" onclick="previousTrack()">⏮️ Prev</button>
+                    <button class="mac-button" onclick="togglePlay()" id="playBtn">▶️ Play</button>
+                    <button class="mac-button" onclick="stopTrack()">⏹️ Stop</button>
+                    <button class="mac-button" onclick="nextTrack()">⏭️ Next</button>
+                    <button class="mac-button" onclick="toggleShuffle()" id="shuffleBtn">🔀</button>
+                    <button class="mac-button" onclick="toggleRepeat()" id="repeatBtn">🔁</button>
+                </div>
+                <div style="margin: 8px 0; font-size: 11px; font-weight: bold;">Playlist:</div>
+                <div class="playlist" id="playlist"></div>
+            </div>
+            <div class="window-resize-handle" data-window="musicWindow"></div>
+        </div>
 
+        <!-- Gallery Window -->
+        <div class="window" id="galleryWindow" style="width: 600px; height: 500px; left: 150px; top: 100px;">
+            <div class="window-title-bar" data-window="galleryWindow">
+                <div class="window-buttons">
+                    <div class="window-button close" onclick="closeWindow('galleryWindow')">×</div>
+                    <div class="window-button maximize" onclick="toggleMaximize('galleryWindow')">□</div>
+                </div>
+                <div class="window-title">Gallery</div>
+            </div>
+            <div class="window-content">
+                <div class="gallery-nav">
+                    <button class="mac-button" onclick="switchFolder('photos')">📷 Photos</button>
+                    <button class="mac-button" onclick="switchFolder('drawings')">🎨 Drawings</button>
+                </div>
+                <div class="gallery-grid" id="galleryGrid"></div>
+            </div>
+            <div class="window-resize-handle" data-window="galleryWindow"></div>
+        </div>
+
+        <!-- Image Viewer Window -->
+        <div class="window" id="imageWindow" style="width: 500px; height: 550px; left: 200px; top: 120px;">
+            <div class="window-title-bar" data-window="imageWindow">
+                <div class="window-buttons">
+                    <div class="window-button close" onclick="closeWindow('imageWindow')">×</div>
+                    <div class="window-button maximize" onclick="toggleMaximize('imageWindow')">□</div>
+                </div>
+                <div class="window-title" id="imageTitle">Image Viewer</div>
+            </div>
+            <div class="window-content">
+                <div class="image-viewer" id="imageViewer"></div>
+            </div>
+            <div class="window-resize-handle" data-window="imageWindow"></div>
+        </div>
+
+        <!-- Videos Window -->
+        <div class="window" id="videosWindow" style="width: 640px; height: 500px; left: 180px; top: 100px;">
+            <div class="window-title-bar" data-window="videosWindow">
+                <div class="window-buttons">
+                    <div class="window-button close" onclick="closeWindow('videosWindow')">×</div>
+                    <div class="window-button maximize" onclick="toggleMaximize('videosWindow')">□</div>
+                </div>
+                <div class="window-title">Videos</div>
+            </div>
+            <div class="window-content">
+                <video id="videoPlayer" class="video-player" controls style="width: 100%; max-height: 360px;">
+                    <source src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div style="margin: 8px 0; font-size: 11px; font-weight: bold;">Video Library:</div>
+                <div class="video-list" id="videoList"></div>
+            </div>
+            <div class="window-resize-handle" data-window="videosWindow"></div>
+        </div>
+
+        <!-- Notes Window -->
+        <div class="window" id="notesWindow" style="width: 700px; height: 500px; left: 120px; top: 90px;">
+            <div class="window-title-bar" data-window="notesWindow">
+                <div class="window-buttons">
+                    <div class="window-button close" onclick="closeWindow('notesWindow')">×</div>
+                    <div class="window-button maximize" onclick="toggleMaximize('notesWindow')">□</div>
+                </div>
+                <div class="window-title">Notes</div>
+            </div>
+            <div class="window-content" style="padding: 0;">
+                <div class="notes-layout">
+                    <div class="notes-sidebar" id="notesSidebar">
+                        <div style="padding: 8px; text-align: center; color: #606060; font-size: 10px;">
+                            Loading notes...
+                        </div>
+                    </div>
+                    <div class="notes-content" id="notesContent">
+                        Select a note to view its content...
+                    </div>
+                </div>
+            </div>
+            <div class="window-resize-handle" data-window="notesWindow"></div>
+        </div>
+    </div>
+
+    <!-- Dock -->
+    <div class="dock">
+        <div class="dock-icon" onclick="openWindow('musicWindow')" title="Music Player">
+            <img src="icons/music.png" alt="Music">
+        </div>
+        <div class="dock-icon" onclick="openWindow('galleryWindow')" title="Gallery">
+            <img src="icons/gallery.png" alt="Gallery">
+        </div>
+        <div class="dock-icon" onclick="openWindow('videosWindow')" title="Videos">
+            <img src="icons/videos.png" alt="Videos">
+        </div>
+        <div class="dock-icon" onclick="openWindow('notesWindow')" title="Notes">
+            <img src="icons/notes.png" alt="Notes">
+        </div>
+    </div>
+
+    <!-- Load JavaScript -->
+    <script src="script.js"></script>
 </body>
-<!-- love you too hun-->
+</html>
