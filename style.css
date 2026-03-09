@@ -521,3 +521,54 @@ body {
         gap: 8px;
     }
 }
+
+/* Contact App Styles */
+#contactGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+}
+
+.contact-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 24px;
+    background: linear-gradient(180deg, #f0f0f0 0%, #c0c0c0 100%);
+    border: 1px solid #000;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #000;
+    width: 80%;
+    max-width: 300px;
+    box-shadow: inset -1px -1px 1px rgba(0,0,0,0.2), inset 1px 1px 1px rgba(255,255,255,0.8);
+    transition: background 0.2s;
+}
+
+.contact-link:hover {
+    background: linear-gradient(180deg, #ffffff 0%, #d0d0d0 100%);
+}
+
+.contact-link:active {
+    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.contact-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.contact-label {
+    font-weight: bold;
+    font-size: 12px;
+}

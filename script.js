@@ -409,9 +409,29 @@ const photoImages = [
 
 const drawingImages = [
     // EDIT THIS ARRAY WITH YOUR DRAWINGS
-      {
+  {
+    "name": "20210920_012934.jpg",
+    "file": "drawings/20210920_012934.jpg"
+  },
+  {
+    "name": "20211117_011538.png",
+    "file": "drawings/20211117_011538.png"
+  },
+  {
+    "name": "20240120_092406.jpg",
+    "file": "drawings/20240120_092406.jpg"
+  },
+  {
     "name": "512 - tagme.jpg",
     "file": "drawings/512 - tagme.jpg"
+  },
+  {
+    "name": "antihimeko.jpg",
+    "file": "drawings/antihimeko.jpg"
+  },
+  {
+    "name": "augustneka.png",
+    "file": "drawings/augustneka.png"
   },
   {
     "name": "boules.png",
@@ -428,6 +448,22 @@ const drawingImages = [
   {
     "name": "card.png",
     "file": "drawings/card.png"
+  },
+  {
+    "name": "evolution neka.png",
+    "file": "drawings/evolution neka.png"
+  },
+  {
+    "name": "fitfeb.png",
+    "file": "drawings/fitfeb.png"
+  },
+  {
+    "name": "gamefillette.png",
+    "file": "drawings/gamefillette.png"
+  },
+  {
+    "name": "gamingfeb.png",
+    "file": "drawings/gamingfeb.png"
   },
   {
     "name": "HiPaint_1706064240788.png",
@@ -642,6 +678,10 @@ const drawingImages = [
     "file": "drawings/HiPaint_1770395809216 (1).png"
   },
   {
+    "name": "history.png",
+    "file": "drawings/history.png"
+  },
+  {
     "name": "ilrevient.png",
     "file": "drawings/ilrevient.png"
   },
@@ -654,8 +694,20 @@ const drawingImages = [
     "file": "drawings/image-20.png"
   },
   {
+    "name": "italianhomework.jpg",
+    "file": "drawings/italianhomework.jpg"
+  },
+  {
     "name": "logo.png",
     "file": "drawings/logo.png"
+  },
+  {
+    "name": "lovefeb.png",
+    "file": "drawings/lovefeb.png"
+  },
+  {
+    "name": "marchbandoctobert.png",
+    "file": "drawings/marchbandoctobert.png"
   },
   {
     "name": "New Drawing2 (3).png",
@@ -1028,7 +1080,24 @@ const drawingImages = [
   {
     "name": "sketch-1770980685227_120450.png",
     "file": "drawings/sketch-1770980685227_120450.png"
+  },
+  {
+    "name": "spaceneka.png",
+    "file": "drawings/spaceneka.png"
+  },
+  {
+    "name": "thefirst.jpg",
+    "file": "drawings/thefirst.jpg"
+  },
+  {
+    "name": "wantlovefeb.png",
+    "file": "drawings/wantlovefeb.png"
+  },
+  {
+    "name": "word.png",
+    "file": "drawings/word.png"
   }
+
 ];
 
 let currentFolder = 'photos';
@@ -1225,9 +1294,79 @@ macos9-desktop/
 }
 
 // ============================================
+// GAMES APPLICATION
+// ============================================
+const games = [
+    { name: 'Game 1', poster: 'games/posters/game1.png', file: 'games/game1.html' },
+    { name: 'Game 2', poster: 'games/posters/game2.png', file: 'games/game2.html' },
+    { name: 'Game 3', poster: 'games/posters/game3.png', file: 'games/game3.html' },
+    { name: 'Game 4', poster: 'games/posters/game4.png', file: 'games/game4.html' },
+    // Add more games as needed
+];
+
+function initGames() {
+    const grid = document.getElementById('gamesGrid');
+    grid.innerHTML = games.map((game, i) => {
+        const posterContent = game.poster ? 
+            `<img src="${game.poster}">` : 
+            '🎮';
+        
+        return `
+            <div class="gallery-item" onclick="openGame(${i})">
+                <div class="gallery-thumbnail">${posterContent}</div>
+                <div class="gallery-label">${game.name}</div>
+            </div>
+        `;
+    }).join('');
+}
+
+function openGame(index) {
+    const game = games[index];
+    if (game.file) {
+        window.open(game.file, '_blank', 'noopener,noreferrer');
+    } else {
+        alert('Game file not found.');
+    }
+}
+
+// ============================================
+// CONTACT APPLICATION
+// ============================================
+const contactLinks = [
+    { 
+        name: 'Instagram', 
+        icon: 'icons/contact/instagram.png',  // Changed from emoji to image path
+        url: 'https://www.instagram.com/yourusername'
+    },
+    { 
+        name: 'YouTube', 
+        icon: 'icons/contact/youtube.png',    // Changed from emoji to image path
+        url: 'https://www.youtube.com/@yourchannel'
+    },
+    { 
+        name: 'TikTok', 
+        icon: 'icons/contact/tiktok.png',      // Changed from emoji to image path
+        url: 'https://www.tiktok.com/@yourusername'
+    }
+];
+
+function initContact() {
+    const grid = document.getElementById('contactGrid');
+    grid.innerHTML = contactLinks.map(link => `
+        <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="contact-link">
+            <div class="contact-icon">
+                <img src="${link.icon}" alt="${link.name}">
+            </div>
+            <div class="contact-label">${link.name}</div>
+        </a>
+    `).join('');
+}
+// ============================================
 // INITIALIZE ALL APPLICATIONS
 // ============================================
 initMusicPlayer();
 loadGallery();
 initVideos();
+initGames();
+initContact();  
 initNotes();

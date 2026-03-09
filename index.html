@@ -140,6 +140,39 @@
         </div>
     </div>
 
+    <!-- Games Window -->
+    <div class="window" id="gamesWindow" style="width: 700px; height: 550px; left: 140px; top: 90px;">
+        <div class="window-title-bar" data-window="gamesWindow">
+            <div class="window-buttons">
+                <div class="window-button close" onclick="closeWindow('gamesWindow')">×</div>
+                <div class="window-button maximize" onclick="toggleMaximize('gamesWindow')">□</div>
+            </div>
+            <div class="window-title">Games</div>
+        </div>
+        <div class="window-content">
+            <div class="gallery-grid" id="gamesGrid"></div>
+        </div>
+        <div class="window-resize-handle" data-window="gamesWindow"></div>
+    </div>
+
+    <!-- Contact Window -->
+    <div class="window" id="contactWindow" style="width: 400px; height: 350px; left: 250px; top: 150px;">
+        <div class="window-title-bar" data-window="contactWindow">
+            <div class="window-buttons">
+                <div class="window-button close" onclick="closeWindow('contactWindow')">×</div>
+                <div class="window-button maximize" onclick="toggleMaximize('contactWindow')">□</div>
+            </div>
+            <div class="window-title">Contact</div>
+        </div>
+        <div class="window-content">
+            <div style="text-align: center; padding: 20px;">
+                <h2 style="margin-bottom: 20px; font-size: 16px;">Neka is Online.</h2>
+                <div id="contactGrid"></div>
+            </div>
+        </div>
+        <div class="window-resize-handle" data-window="contactWindow"></div>
+    </div>
+
     <!-- Dock -->
     <div class="dock">
         <div class="dock-icon" onclick="openWindow('musicWindow')" title="Music Player">
@@ -154,6 +187,16 @@
         <div class="dock-icon" onclick="openWindow('notesWindow')" title="Notes">
             <img src="icons/notes.png" alt="Notes">
         </div>
+        <div class="dock-icon" onclick="openWindow('gamesWindow')" title="Games">
+            <img src="icons/games.png" alt="Games">
+        </div>
+        <div class="dock-icon" onclick="openWindow('contactWindow')" title="Contact">
+            <img src="icons/contact.png" alt="Contact">
+        </div>
+        <div class="dock-icon" onclick="openWindow('merchWindow')" title="Contact">
+            <img src="icons/merch.png" alt="Merch">
+        </div>
+
     </div>
 
     <!-- Load JavaScript -->
