@@ -147,6 +147,14 @@ const songs = [
         icon: '🎶',
         file: 'music/Coupure.wav',
         cover : 'music/launchpad.png'
+    },
+    { 
+        title: 'Télévisé', 
+        artist: 'endeNeka', 
+        album: 'single', 
+        icon: '🎶',
+        file: 'music/Televise.wav',
+        cover : 'music/launchpad.png'
     }
     
 ];
