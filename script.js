@@ -147,6 +147,22 @@ const songs = [
         icon: '🎶',
         file: 'music/Coupure.wav',
         cover : 'music/launchpad.png'
+    },
+    { 
+        title: 'Télévisé', 
+        artist: 'endeNeka', 
+        album: 'single', 
+        icon: '🎶',
+        file: 'music/Televise.wav',
+        cover : 'music/launchpad.png'
+    },
+    { 
+        title: 'ALONE2007', 
+        artist: 'endeNeka', 
+        album: 'single', 
+        icon: '🎶',
+        file: 'music/ALONE_2007FINAL.mp3',
+        cover : 'music/alone.png'
     }
     
 ];
